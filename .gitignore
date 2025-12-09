@@ -1,0 +1,15 @@
+# Visual Studio temporary files
+.vs/
+bin/
+obj/
+
+# Database
+*.db
+*.sqlite
+
+# User settings
+*.user
+*.suo
+
+# Publish output
+publish/
