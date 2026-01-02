@@ -7,12 +7,18 @@ async function loadTop(count) {
 
     data.forEach(x => {
         const tr = document.createElement("tr");
+
         tr.innerHTML = `
-            <td>${x.siteName}</td>
-            <td>${x.county}</td>
-            <td>${x.pM25}</td>
+            <td>${x.siteName ?? "-"}</td>
+            <td>${x.county ?? "-"}</td>
+            <td>
+                <span class="badge bg-warning text-dark">
+                    ${x.pM25}
+                </span>
+            </td>
             <td>${x.publishTime}</td>
         `;
+
         tbody.appendChild(tr);
     });
 }

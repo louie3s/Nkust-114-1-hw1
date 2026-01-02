@@ -1,0 +1,16 @@
+body {
+    background-color: #f5f7fa;
+    font-family: "Microsoft JhengHei", sans-serif;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.table th, .table td {
+    vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #e9f5ec;
+}
