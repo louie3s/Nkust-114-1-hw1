@@ -36,26 +36,27 @@ public class AirController : ControllerBase
     }
 
     // 查詢縣市 (包含模糊、大小寫不敏感)
+    // 查詢縣市（精確比對，避免 SQLite 中文問題）
     [HttpGet("{city}")]
     public IActionResult GetByCity(string city)
     {
-        try
-        {
-            if (string.IsNullOrWhiteSpace(city)) return BadRequest("city 不能為空");
+        if (string.IsNullOrWhiteSpace(city))
+            return BadRequest("city 不能為空");
 
-            var name = city.Trim();
-            var result = _db.AirQuality
-                .Where(x => x.County != null && x.County.Contains(name))
-                .ToList();
+        var name = city.Trim();
 
-            if (!result.Any()) return NotFound($"找不到縣市：{name}");
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return Problem(detail: ex.InnerException?.Message ?? ex.Message, title: "Server error");
-        }
+        var result = _db.AirQuality
+            .Where(x => x.County != null && x.County.Trim() == name)
+            .AsEnumerable()
+            .OrderByDescending(x => x.PM25Int)
+            .ToList();
+
+        if (!result.Any())
+            return NotFound($"找不到縣市：{name}");
+
+        return Ok(result);
     }
+
 
     // PM2.5 污染排行 TOP N (安全解析 PM25，會忽略無法解析的記錄)
     [HttpGet("top/{count}")]

@@ -14,7 +14,7 @@ public static class DataImport
             db.AirQuality.AddRange(root.records);
             try
             {
-                db.SaveChanges();
+                db.SaveChanges();                                
             }
             catch (Exception ex)
             {

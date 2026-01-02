@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AirQualityAPI.Models
 {
@@ -77,5 +78,15 @@ namespace AirQualityAPI.Models
 
         [JsonPropertyName("siteid")]
         public string? SiteID { get; set; }
+
+        // 🔥 計算用欄位（不存進資料庫）
+        [NotMapped]
+        public int PM25Int
+        {
+            get
+            {
+                return int.TryParse(PM25, out var v) ? v : 0;
+            }
+        }
     }
 }
